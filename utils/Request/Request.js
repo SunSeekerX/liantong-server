@@ -3,7 +3,7 @@
  * @author SunSeekerX
  * @time 2019-12-02 18:11:35
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-04 15:32:08
+ * @LastEditTime 2019-12-17 16:07:13
  */
 
 const axios = require('axios') // Axios
@@ -29,30 +29,8 @@ module.exports = function createRequest(options) {
 
   // request interceptor
   service.interceptors.request.use(
-    async config => {
-      // Token
-      // if (store.state.token) {
-      //   config.headers['token'] = store.state.token
-      // }
-      // if (config.method === 'post') {
-      //   config.data = qs.stringify(config.data)
-      // }
-      if (config.method === 'get') {
-        // config.url = config.url + '?' + qs.stringify(config.data)
-        // 防止接口缓存
-        config.params = {
-          _t: Date.parse(new Date()) / 1000,
-          ...config.params
-        }
-      }
-      // if (config.method === 'upload') {
-      //   config.method = 'post'
-      // }
-      return config
-    },
-    error => {
-      return Promise.reject(error)
-    }
+    async config => config,
+    error => Promise.reject(error)
   )
 
   // response interceptor

@@ -3,7 +3,7 @@
  * @author SunSeekerX
  * @time 2019-12-02 17:49:37
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-17 01:09:33
+ * @LastEditTime 2019-12-17 18:43:01
  */
 
 module.exports = {
@@ -20,8 +20,8 @@ module.exports = {
       dialect: 'mysql',
       timezone: '+08:00',
       pool: {
-        max: 5,
-        min: 0,
+        max: 100,
+        min: 10,
         acquire: 30000,
         idle: 10000
       },

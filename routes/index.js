@@ -3,7 +3,7 @@
  * @author SunSeekerX
  * @time 2019-12-02 17:33:31
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-17 01:03:05
+ * @LastEditTime 2019-12-17 18:07:43
  */
 
 const URL = require('./constant/URL.js')
@@ -24,5 +24,10 @@ module.exports = app => {
     .post(
       URL.Public.GET_CODE,
       Controller.Common.getCode
+    )
+    .post(
+      URL.Public.FRIEND_HELP,
+      Policies.Common.friendHelp,
+      Controller.Common.friendHelp
     )
 }
