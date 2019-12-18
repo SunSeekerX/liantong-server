@@ -1,27 +1,27 @@
 /**
- * @name 
+ * @name app.js
  * @author SunSeekerX
  * @time 2019-12-16 22:14:04
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-17 10:59:26
+ * @LastEditTime 2019-12-18 18:16:43
  */
 
-var express = require('express')
-var cors = require('cors')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-var http = require('http')
-var path = require('path');
+const express = require('express')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
+const http = require('http')
+const path = require('path')
+const config = require('./config/index')
 
-var app = express()
-
+const app = express()
 
 app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Router
 require('./routes/index.js')(app)
@@ -45,20 +45,18 @@ app.use(function(err, req, res, next) {
 /**
  * Get port from environment and store in Express.
  */
-
-var port = '3000'
-app.set('port', port)
+app.set('port', config.port)
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app)
+const server = http.createServer(app)
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, () => {
-  console.log(`server running at port ${port}`)
+server.listen(config.port, () => {
+  console.log(`server running at port ${config.port}`)
 })

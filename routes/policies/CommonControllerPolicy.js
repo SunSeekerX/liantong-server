@@ -1,9 +1,9 @@
 /**
- * @name
+ * @name CommonControllerPolicy.js
  * @author SunSeekerX
  * @time 2019-12-10 17:56:24
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 13:02:36
+ * @LastEditTime 2019-12-18 18:20:30
  */
 
 const Util = require('../../utils/Utils.js')

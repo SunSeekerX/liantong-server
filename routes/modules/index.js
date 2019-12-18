@@ -3,14 +3,13 @@
  * @author SunSeekerX
  * @time 2019-12-04 16:41:23
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-16 22:26:36
+ * @LastEditTime 2019-12-18 18:20:05
  */
 
-// const bcrypt = require('bcryptjs')
 const Sequelize = require('sequelize')
 const { SequelizeConfig } = require('../../config/index.js')
 
- // Connect to database
+// Connect to database
 const sequelize = new Sequelize(
   SequelizeConfig.database,
   SequelizeConfig.username,
@@ -18,17 +17,19 @@ const sequelize = new Sequelize(
   SequelizeConfig.options
 )
 
-const Code           = sequelize.import(__dirname + '/Code')
+const Code = sequelize.import(__dirname + '/Code')
 
-sequelize.sync({ force: false })
-    .then(() => {
-      console.log('Sequelize sync success');
-    }, error => {
-        // Connect fail
-        console.error(error.message)
-    })
+sequelize.sync({ force: false }).then(
+  () => {
+    console.log('Sequelize sync success')
+  },
+  error => {
+    // Connect fail
+    console.error(error.message)
+  }
+)
 
 // Export models
 module.exports = {
-  Code,
+  Code
 }

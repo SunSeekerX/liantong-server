@@ -1,9 +1,9 @@
 /**
- * @name User.js
+ * @name Code.js
  * @author SunSeekerX
- * @time 2019-12-04 16:41:28
+ * @time 2019-12-17 12:49:50
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-16 23:20:10
+ * @LastEditTime 2019-12-18 18:19:46
  */
 
 module.exports = (sequelize, DataTypes) =>
@@ -22,13 +22,13 @@ module.exports = (sequelize, DataTypes) =>
       unique: true,
       comment: '用户码子'
     },
-    source_ip:{
+    source_ip: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: false,
       comment: '来源ip'
     },
-    fail_count:{
+    fail_count: {
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: false,

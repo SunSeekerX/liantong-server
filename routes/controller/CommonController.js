@@ -1,9 +1,9 @@
 /**
- * @name
+ * @name CommonController.js
  * @author SunSeekerX
  * @time 2019-12-10 17:55:54
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 13:09:12
+ * @LastEditTime 2019-12-18 18:19:19
  */
 
 const Util = require('../../utils/Utils.js')
@@ -127,15 +127,15 @@ module.exports = {
           code
         }
       })
-      if(deleteRes === 1){
+      if (deleteRes === 1) {
         Util.response(res, {
-          msg: '删除成功',
+          msg: '删除成功'
         })
       } else {
         Util.response(res, {
           success: false,
           code: 400,
-          msg: `找不到${code}记录`,
+          msg: `找不到${code}记录`
         })
       }
     }
