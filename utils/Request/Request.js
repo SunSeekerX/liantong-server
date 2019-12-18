@@ -3,7 +3,7 @@
  * @author SunSeekerX
  * @time 2019-12-02 18:11:35
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-17 16:07:13
+ * @LastEditTime 2019-12-18 13:47:50
  */
 
 const axios = require('axios') // Axios
@@ -20,7 +20,7 @@ module.exports = function createRequest(options) {
     Object.assign(
       {
         baseURL: '',
-        withCredentials: false,
+        withCredentials: true,
         timeout: 15000
       },
       options
@@ -29,7 +29,9 @@ module.exports = function createRequest(options) {
 
   // request interceptor
   service.interceptors.request.use(
-    async config => config,
+    async config => {
+      return config
+    },
     error => Promise.reject(error)
   )
 

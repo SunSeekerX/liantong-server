@@ -3,7 +3,7 @@
  * @author SunSeekerX
  * @time 2019-12-10 17:55:54
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-17 18:48:09
+ * @LastEditTime 2019-12-18 13:09:12
  */
 
 const Util = require('../../utils/Utils.js')
@@ -22,7 +22,7 @@ module.exports = {
     let { code } = req.body
 
     // 单次插入最大为1000条
-    if(code.length > 1000){
+    if (code.length > 1000) {
       code = code.slice(0, 1000)
     }
 
@@ -116,6 +116,28 @@ module.exports = {
         msg: '服务器内部错误',
         success: false
       })
+    }
+  },
+
+  async deleteCode(req, res) {
+    const { code } = req.body
+    if (code) {
+      const deleteRes = await Code.destroy({
+        where: {
+          code
+        }
+      })
+      if(deleteRes === 1){
+        Util.response(res, {
+          msg: '删除成功',
+        })
+      } else {
+        Util.response(res, {
+          success: false,
+          code: 400,
+          msg: `找不到${code}记录`,
+        })
+      }
     }
   },
 
