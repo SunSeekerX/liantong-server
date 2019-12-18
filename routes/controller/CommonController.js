@@ -3,12 +3,15 @@
  * @author SunSeekerX
  * @time 2019-12-10 17:55:54
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 18:19:19
+ * @LastEditTime 2019-12-18 23:23:32
  */
 
+const axios = require('axios')
+const CryptoJS = require('crypto-js')
+
+const Config = require('../../config/index')
 const Util = require('../../utils/Utils.js')
 const { Code } = require('../modules/index.js')
-const Api = require('../../apis/index.js')
 
 module.exports = {
   // Hello world
@@ -142,15 +145,42 @@ module.exports = {
   },
 
   async friendHelp(req, res) {
-    const { code, encryptMobile } = req.body
+    const { string } = req.body
     try {
-      const requestRes = await Api.Common.friendHelp({
-        code,
-        encryptMobile
+      const bytes = CryptoJS.AES.decrypt(string, Config.CryptoJSKey)
+      const originalText = JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+
+      const code = originalText.code
+      const encryptMobile = originalText.encryptMobile
+      axios({
+        method: 'post',
+        url: `https://m.client.10010.com/DoubleCard_Pro/static/doubleCard/actFriendHelp?encryptMobile=${encryptMobile}&invitationCode=${code}`,
+        data: {
+          encryptMobile,
+          invitationCode: code
+        }
       })
-      res.send(requestRes)
+        .then(response => {
+          Util.response(res, {
+            msg: '',
+            data: response.data
+          })
+          // res.send(response.data)
+        })
+        .catch(() => {
+          Util.response(res, {
+            success: false,
+            code: 400,
+            msg: '',
+            respMsg: '内部服务器错误'
+          })
+        })
     } catch (error) {
-      res.send(error)
+      Util.response(res, {
+        success: false,
+        code: 400,
+        msg: '你想干嘛鸭？？？😂',
+      })
     }
   }
 }

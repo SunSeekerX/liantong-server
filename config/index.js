@@ -3,7 +3,7 @@
  * @author SunSeekerX
  * @time 2019-12-02 17:49:37
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 18:16:59
+ * @LastEditTime 2019-12-18 23:12:05
  */
 
 module.exports = {
@@ -36,5 +36,6 @@ module.exports = {
         }
       }
     }
-  }
+  },
+  CryptoJSKey: 'HAHA'
 }

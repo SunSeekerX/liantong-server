@@ -3,7 +3,7 @@
  * @author SunSeekerX
  * @time 2019-12-02 18:11:35
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 13:47:50
+ * @LastEditTime 2019-12-18 22:09:20
  */
 
 const axios = require('axios') // Axios
@@ -20,8 +20,11 @@ module.exports = function createRequest(options) {
     Object.assign(
       {
         baseURL: '',
-        withCredentials: true,
-        timeout: 15000
+        withCredentials: false,
+        timeout: 15000,
+        headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       },
       options
     )
@@ -29,9 +32,7 @@ module.exports = function createRequest(options) {
 
   // request interceptor
   service.interceptors.request.use(
-    async config => {
-      return config
-    },
+    async config => config,
     error => Promise.reject(error)
   )
 
