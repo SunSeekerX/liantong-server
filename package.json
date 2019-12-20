@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "serve": "nodemon app.js"
+    "serve": "nodemon app.js",
+    "pm2-remove": "pm2 stop liantong && pm2 delete liantong",
+    "pm2-start": "pm2 start ecosystem.config.js"
   },
   "dependencies": {
     "axios": "^0.19.0",

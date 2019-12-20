@@ -3,13 +3,13 @@
  * @author SunSeekerX
  * @time 2019-12-16 22:14:04
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 18:16:43
+ * @LastEditTime 2019-12-20 11:22:05
  */
 
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
-const logger = require('morgan')
+const morgan = require('morgan')
 const http = require('http')
 const path = require('path')
 const config = require('./config/index')
@@ -17,7 +17,7 @@ const config = require('./config/index')
 const app = express()
 
 app.use(cors())
-app.use(logger('dev'))
+app.use(morgan(':remote-addr :method :url :status :res[content-length] ":referrer" ":user-agent'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
