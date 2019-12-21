@@ -3,15 +3,39 @@
  * @author SunSeekerX
  * @time 2019-12-10 17:55:54
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 23:23:32
+ * @LastEditTime 2019-12-21 18:32:21
  */
 
 const axios = require('axios')
 const CryptoJS = require('crypto-js')
+const redis = require('redis')
 
 const Config = require('../../config/index')
 const Util = require('../../utils/Utils.js')
 const { Code } = require('../modules/index.js')
+const redisClient = redis.createClient({
+  host: Config.redisConfig.host,
+  port: Config.redisConfig.port,
+  password: Config.redisConfig.password
+})
+redisClient.on('connect', () => {
+  console.log('connect>>>')
+})
+redisClient.on('ready', () => {
+  console.log('ready>>>')
+})
+redisClient.on('reconnecting', () => {
+  console.log('reconnecting>>>')
+})
+redisClient.on('end', () => {
+  console.log('Redis end!!!')
+})
+redisClient.on('warning', e => {
+  console.log('warning>>>', e)
+})
+redisClient.on('error', err => {
+  console.log('Error>>>', err)
+})
 
 module.exports = {
   // Hello world
@@ -94,6 +118,12 @@ module.exports = {
 
   async getCode(req, res) {
     let { limit, offset } = req.body
+    
+    redisClient.get(req.ip, (err, res) => {
+      // res = Number(res)
+      redisClient.set(req.ip, new Date(), redis.print)
+    })
+
     limit = Number(limit)
     offset = Number(offset)
 
@@ -179,7 +209,7 @@ module.exports = {
       Util.response(res, {
         success: false,
         code: 400,
-        msg: '你想干嘛鸭？？？😂',
+        msg: '你想干嘛鸭？？？😂'
       })
     }
   }

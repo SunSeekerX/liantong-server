@@ -3,12 +3,17 @@
  * @author SunSeekerX
  * @time 2019-12-02 17:49:37
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-18 23:12:05
+ * @LastEditTime 2019-12-21 18:18:43
  */
 
 module.exports = {
   // App running port
   port: 3000,
+  redisConfig: {
+    host: 'localhost',
+    port: '6379',
+    password: 123456
+  },
   // Sequelize config
   SequelizeConfig: {
     database: 'ssx_liantong',
