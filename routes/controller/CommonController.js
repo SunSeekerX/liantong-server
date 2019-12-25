@@ -3,40 +3,18 @@
  * @author SunSeekerX
  * @time 2019-12-10 17:55:54
  * @LastEditors SunSeekerX
- * @LastEditTime 2019-12-21 18:32:21
+ * @LastEditTime 2019-12-25 16:55:03
  */
 
 const axios = require('axios')
 const CryptoJS = require('crypto-js')
-const redis = require('redis')
 
 const Config = require('../../config/index')
 const Util = require('../../utils/Utils.js')
+const RedisClient = require('../../utils/RedisClient.js')
 const { Code } = require('../modules/index.js')
-const redisClient = redis.createClient({
-  host: Config.redisConfig.host,
-  port: Config.redisConfig.port,
-  password: Config.redisConfig.password
-})
-redisClient.on('connect', () => {
-  console.log('connect>>>')
-})
-redisClient.on('ready', () => {
-  console.log('ready>>>')
-})
-redisClient.on('reconnecting', () => {
-  console.log('reconnecting>>>')
-})
-redisClient.on('end', () => {
-  console.log('Redis end!!!')
-})
-redisClient.on('warning', e => {
-  console.log('warning>>>', e)
-})
-redisClient.on('error', err => {
-  console.log('Error>>>', err)
-})
 
+console.log(RedisClient.server_info)
 module.exports = {
   // Hello world
   async helloWorld(req, res) {
@@ -118,37 +96,49 @@ module.exports = {
 
   async getCode(req, res) {
     let { limit, offset } = req.body
-    
-    redisClient.get(req.ip, (err, res) => {
-      // res = Number(res)
-      redisClient.set(req.ip, new Date(), redis.print)
-    })
-
     limit = Number(limit)
     offset = Number(offset)
+    RedisClient.get(req.ip, async (err, value) => {
+      if (err) {
+        getData()
+      } else {
+        if (Date.parse(Date()) / 1000 - Number(value) >= 0.5) {
+          getData()
+        } else {
+          Util.response(res, {
+            code: '500',
+            msg: '谁让你点这么快？慢点',
+            success: false
+          })
+        }
+      }
+    })
 
-    if (limit > 500) {
-      limit = 500
-    }
-    try {
-      const getRes = await Code.findAndCountAll({
-        where: {},
-        limit: limit || 50,
-        offset: offset || 0,
-        order: [['createdAt', 'DESC']]
-      })
+    async function getData() {
+      RedisClient.set(req.ip, Date.parse(Date()) / 1000)
+      if (limit > 500) {
+        limit = 500
+      }
+      try {
+        const getRes = await Code.findAndCountAll({
+          where: {},
+          limit: limit || 50,
+          offset: offset || 0,
+          order: [['createdAt', 'DESC']]
+        })
 
-      Util.response(res, {
-        msg: '执行成功',
-        data: getRes
-      })
-    } catch (error) {
-      console.log(error)
-      Util.response(res, {
-        code: '500',
-        msg: '服务器内部错误',
-        success: false
-      })
+        Util.response(res, {
+          msg: '执行成功',
+          data: getRes
+        })
+      } catch (error) {
+        console.log(error)
+        Util.response(res, {
+          code: '500',
+          msg: '服务器内部错误',
+          success: false
+        })
+      }
     }
   },
 
